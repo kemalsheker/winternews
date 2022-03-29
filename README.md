@@ -1,6 +1,20 @@
-# winternews
+# Winter Sport News
 
-A new Flutter project.
+News feed application for winter sports.
+
+Feeds: 
+
+https://www.foxsports.com.au/content-feeds/winter-olympics/
+
+https://etusuora.com/rss/en/rss_winter_sports.xml
+
+https://www.fis-ski.com/api/rss/all/tag/Newsflash/en
+
+https://www.snowboarder.com/feed/
+
+http://www.agnarchy.com/feed/
+
+https://planetski.eu/feed/
 
 ## Getting Started
 
