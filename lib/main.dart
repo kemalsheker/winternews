@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:winternews/newsItem.dart';
 import 'package:winternews/webview.dart';
+import 'package:xml/xml.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,6 +9,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +33,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyGridView extends StatelessWidget {
+class MyGridView extends StatefulWidget {
   const MyGridView({Key? key}) : super(key: key);
+
+
+
+  @override
+  State<StatefulWidget> createState() => _MyGridViewState();
+
+}
+
+class _MyGridViewState extends State<MyGridView> {
+  late List<NewsItem>?  _NewsItemList = [];
+  
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,10 +94,16 @@ class MyGridView extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const WebView()));
+                            builder: (context) =>
+                                MyWebView(
+                                  selectedUrl: "https://www.foxsports.com.au/beijing-olympics-2022/winter-olympics-2022-kamila-valieva-doping-update-russia-human-rights-abuses-reaction-medals-eileen-gu/news-story/667a50c2dca4dc7f42753c3d76fe82d5",
+                                )
+                        )
+                    );
                   }
-                  )
-              );
+              )
+          );
         });
   }
 }
+
