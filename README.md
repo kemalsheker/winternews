@@ -16,6 +16,12 @@ http://www.agnarchy.com/feed/
 
 https://planetski.eu/feed/
 
+https://www.inthesnow.com/feed/
+
+https://thesnowmag.com/feed/
+
+http://freeskier.com/feed
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
