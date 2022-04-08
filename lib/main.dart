@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:winternews/newsItem.dart';
 import 'package:winternews/rss_to_json.dart';
+import 'package:winternews/sort_pubDate.dart';
 import 'package:winternews/webview.dart';
 import 'package:xml/xml.dart';
 import 'package:shimmer/shimmer.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,23 +51,41 @@ class MyGridView extends StatefulWidget {
 }
 
 class _MyGridViewState extends State<MyGridView> {
-  Map<String, List> newsData = Map<String, List>();
+
+  List<NewsItem> newsData = [];
   bool isLoading = true;
+
+
+  void _addNewsToList(List news){
+    for(NewsItem i in news){
+      newsData.add(i);
+    }
+  }
 
 
   getData() async{
     Future.wait([
-      rssToJson('https://www.fis-ski.com/api/rss/all/tag/Newsflash/en'),
-      rssToJson('https://etusuora.com/rss/en/rss_winter_sports.xml'),
-      rssToJson('https://www.snowboarder.com/feed/'),
-      rssToJson('http://www.agnarchy.com/feed/'),
-      rssToJson('https://planetski.eu/feed/')
+      rssToJson('https://thesnowmag.com/feed/', 'The Snow Mag'),
+      rssToJson('https://www.inthesnow.com/feed/', 'InTheSnow'),
+      rssToJson('http://freeskier.com/feed', 'Freeskier'),
+      rssToJson('https://www.foxsports.com.au/content-feeds/winter-olympics/', 'Fox Sports'),
+      rssToJson('https://www.fis-ski.com/api/rss/all/tag/Newsflash/en', 'FIS Ski'),
+      rssToJson('https://etusuora.com/rss/en/rss_winter_sports.xml', 'ETUSUORA'),
+      rssToJson('https://www.snowboarder.com/feed/', 'Snowboarder'),
+      rssToJson('http://www.agnarchy.com/feed/', 'Agnarchy'),
+      rssToJson('https://planetski.eu/feed/', 'PlanetSKI')
     ]).then((value) {
-      newsData['FIS Ski'] = value[0];
-      newsData['ETUSUORA'] = value[1];
-      newsData['Snowboarder'] = value[2];
-      newsData['Agnarchy'] = value[3];
-      newsData['PlanetSKI'] = value[4];
+      _addNewsToList(value[0]);
+      _addNewsToList(value[1]);
+      _addNewsToList(value[2]);
+      _addNewsToList(value[3]);
+      _addNewsToList(value[4]);
+      _addNewsToList(value[5]);
+      _addNewsToList(value[6]);
+      _addNewsToList(value[7]);
+      _addNewsToList(value[8]);
+
+      sort_pubDate(newsData);
       setState(() {
         isLoading = false;
       });
@@ -115,16 +134,17 @@ class _MyGridViewState extends State<MyGridView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          const Text(
-                              'News Title with gfbhgbndifferent word that contains',
-                              style: TextStyle(fontSize: 24.0)),
+                          AutoSizeText(
+                              newsData[index].getTitle,
+                              style:  const TextStyle(fontSize: 24.0),
+                              maxLines: 5 ,),
                           const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.end,
-                            children: const <Widget>[
-                              Text('News Source'),
-                              Text('News Date')
+                            children: <Widget>[
+                              Text(newsData[index].pubName),
+                              Text(newsData[index].pubDate)
                             ],
                           )
                         ],
@@ -136,7 +156,7 @@ class _MyGridViewState extends State<MyGridView> {
                           MaterialPageRoute(
                               builder: (context) =>
                                   MyWebView(
-                                    selectedUrl: "https://www.foxsports.com.au/beijing-olympics-2022/winter-olympics-2022-kamila-valieva-doping-update-russia-human-rights-abuses-reaction-medals-eileen-gu/news-story/667a50c2dca4dc7f42753c3d76fe82d5",
+                                    selectedUrl: newsData[index].link,
                                   )
                           )
                       );
@@ -148,4 +168,7 @@ class _MyGridViewState extends State<MyGridView> {
 
   }
 }
+
+
+
 

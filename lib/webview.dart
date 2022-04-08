@@ -46,11 +46,11 @@ class _MyWebViewState extends State<MyWebView> {
           onWebViewCreated: (webViewController) {
           widget._controller.complete(webViewController);
           },
-          onPageFinished: (finish){
+          onPageStarted: (started){
             setState(() {
-            isLoading = false;
+              isLoading = false;
             });
-          }
+          },
         ),
         isLoading ? const Center( child: CircularProgressIndicator(),)
           : Stack(),
