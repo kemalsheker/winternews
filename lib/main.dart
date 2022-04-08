@@ -118,8 +118,8 @@ class _MyGridViewState extends State<MyGridView> {
       return GridView.builder(
           padding: const EdgeInsets.all(8.0),
           itemCount: newsData.length,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 300,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: MediaQuery. of(context). size. height / 3,
               childAspectRatio: 1,
               crossAxisSpacing: 20,
               mainAxisSpacing: 20),
@@ -136,15 +136,15 @@ class _MyGridViewState extends State<MyGridView> {
                         children: <Widget>[
                           AutoSizeText(
                               newsData[index].getTitle,
-                              style:  const TextStyle(fontSize: 24.0),
+                              style:  const TextStyle(fontSize: 18.0),
                               maxLines: 5 ,),
                           const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Text(newsData[index].pubName),
-                              Text(newsData[index].pubDate)
+                              AutoSizeText(newsData[index].pubName, style: const TextStyle(fontSize: 4.0), maxLines: 2),
+                              AutoSizeText(newsData[index].pubDate, style: const TextStyle(fontSize: 4.0), maxLines: 2)
                             ],
                           )
                         ],
