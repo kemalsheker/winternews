@@ -22,6 +22,8 @@ https://thesnowmag.com/feed/
 
 http://freeskier.com/feed
 
+https://www.theavantski.com/blog-feed.xml
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
