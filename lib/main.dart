@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:winternews/newsItem.dart';
@@ -116,9 +115,11 @@ class _MyGridViewState extends State<MyGridView> {
 
 
   void dialogAfterTimeOut() {
-    Timer _timer = Timer(const Duration(seconds: 20), () {
+    Timer _timer = Timer(const Duration(seconds: 15), () {
       if (isLoading) {
-       showDialog(context: context, builder: (context) => AlertDialog(
+       showDialog(
+           barrierDismissible: false,
+           context: context, builder: (context) => AlertDialog(
            title: const Text('Error Loading the News!'),
            content: const Text('Check your internet connectivity'),
            actions: [
@@ -136,6 +137,7 @@ class _MyGridViewState extends State<MyGridView> {
   }
 
 
+
 @override
 void initState() {
   // TODO: implement initState
@@ -143,6 +145,7 @@ void initState() {
   internetConnected();
   getData();
 }
+
 
 
 @override
@@ -160,63 +163,67 @@ Widget build(BuildContext context) {
     );
   }
   else {
-    return GridView.builder(
-        padding: const EdgeInsets.all(8.0),
-        itemCount: newsData.length,
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: MediaQuery
-                .of(context)
-                .size
-                .height / 3,
-            childAspectRatio: 1,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20),
-        itemBuilder: (BuildContext ctx, index) {
-          return Ink(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: InkWell(
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        AutoSizeText(
-                          newsData[index].getTitle,
-                          style: const TextStyle(fontSize: 18.0),
-                          maxLines: 5,),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            AutoSizeText(newsData[index].pubName,
-                                style: const TextStyle(fontSize: 4.0),
-                                maxLines: 2),
-                            AutoSizeText(newsData[index].pubDate,
-                                style: const TextStyle(fontSize: 4.0),
-                                maxLines: 2)
-                          ],
-                        )
-                      ],
+    return RefreshIndicator(
+      strokeWidth: 4,
+      onRefresh: () async => await getData() ,
+      child: GridView.builder(
+          padding: const EdgeInsets.all(8.0),
+          itemCount: newsData.length,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 3,
+              childAspectRatio: 1,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          itemBuilder: (BuildContext ctx, index) {
+            return Ink(
+                decoration: BoxDecoration(
+                    color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                child: InkWell(
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          AutoSizeText(
+                            newsData[index].getTitle,
+                            style: const TextStyle(fontSize: 18.0),
+                            maxLines: 5,),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              AutoSizeText(newsData[index].pubName,
+                                  style: const TextStyle(fontSize: 4.0),
+                                  maxLines: 2),
+                              AutoSizeText(newsData[index].pubDate,
+                                  style: const TextStyle(fontSize: 4.0),
+                                  maxLines: 2)
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MyWebView(
-                                  selectedUrl: newsData[index].link,
-                                )
-                        )
-                    );
-                  }
-              )
-          );
-        });
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MyWebView(
+                                    selectedUrl: newsData[index].link,
+                                  )
+                          )
+                      );
+                    }
+                )
+            );
+          }),
+    );
   }
 }}
 
