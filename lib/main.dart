@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
-                    Text('Winter Sport News', style: TextStyle(fontSize: 28.0)),
+                    Text('Winter Sports News', style: TextStyle(fontSize: 28.0)),
                     Text('Your news feed for winter',
                         style: TextStyle(fontSize: 12.0))
                   ]),
