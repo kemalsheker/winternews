@@ -1,4 +1,4 @@
-package com.example.winternews;
+package com.blackstart.winternews;
 
 import io.flutter.embedding.android.FlutterActivity;
 
